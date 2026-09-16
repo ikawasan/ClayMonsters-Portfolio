@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ClayMonsters — Portfolio</title>
+  <meta name="description" content="Unity製クリーチャー作成・育成・リアルタイム対戦ゲーム ClayMonsters のポートフォリオ。" />
+  <link rel="icon" href="assets/ClayMonsters_AppIcon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #e8e2d6;
+      --bg-deep: #d4cdc0;
+      --ink: #1c2420;
+      --ink-soft: #3d4a44;
+      --muted: #5f6d66;
+      --clay: #c45c2a;
+      --clay-deep: #9a3f18;
+      --teal: #1f6f6a;
+      --teal-soft: #2a8a83;
+      --foam: #f7f3eb;
+      --line: rgba(28, 36, 32, 0.12);
+      --shadow-soft: 0 18px 50px rgba(28, 36, 32, 0.08);
+      --font-display: "Syne", system-ui, sans-serif;
+      --font-body: "DM Sans", system-ui, sans-serif;
+      --max: 1080px;
+      --radius: 4px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--ink);
+      background:
+        radial-gradient(1200px 600px at 12% -10%, rgba(42, 138, 131, 0.14), transparent 60%),
+        radial-gradient(900px 500px at 100% 8%, rgba(196, 92, 42, 0.12), transparent 55%),
+        linear-gradient(180deg, var(--bg) 0%, var(--foam) 42%, var(--bg-deep) 100%);
+      line-height: 1.75;
+      line-break: strict;
+      overflow-wrap: break-word;
+      min-height: 100vh;
+    }
+
+    img { max-width: 100%; display: block; }
+
+    a { color: var(--teal); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+    a:hover { color: var(--clay-deep); }
+
+    .wrap {
+      width: min(100% - 2.5rem, var(--max));
+      margin-inline: auto;
+    }
+
+    /* ----- Hero ----- */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      align-content: center;
+      padding: 4.5rem 0 3.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 8% -10% auto auto;
+      width: min(58vw, 640px);
+      aspect-ratio: 1;
+      background:
+        radial-gradient(circle at 40% 40%, rgba(196, 92, 42, 0.22), transparent 58%),
+        radial-gradient(circle at 70% 60%, rgba(31, 111, 106, 0.18), transparent 50%);
+      filter: blur(8px);
+      animation: drift 14s ease-in-out infinite alternate;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    @keyframes drift {
+      from { transform: translate3d(0, 0, 0) scale(1); }
+      to { transform: translate3d(-24px, 18px, 0) scale(1.06); }
+    }
+
+    .hero .wrap { position: relative; z-index: 1; }
+
+    .brand-mark {
+      width: min(100%, 520px);
+      margin-bottom: 1.75rem;
+      filter: drop-shadow(0 12px 28px rgba(28, 36, 32, 0.14));
+      animation: rise 0.9s ease-out both;
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(1.85rem, 4.2vw, 3rem);
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      max-width: 16ch;
+      margin-bottom: 1rem;
+      animation: rise 0.9s ease-out 0.1s both;
+    }
+
+    .hero .lead {
+      font-size: clamp(1.05rem, 2vw, 1.2rem);
+      color: var(--ink-soft);
+      max-width: 36rem;
+      margin-bottom: 1.75rem;
+      animation: rise 0.9s ease-out 0.2s both;
+    }
+
+    .prose-break {
+      display: block;
+      margin-top: 0.55em;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem 1rem;
+      align-items: center;
+      animation: rise 0.9s ease-out 0.3s both;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      padding: 0.85rem 1.35rem;
+      border-radius: var(--radius);
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 0.01em;
+      border: 1.5px solid transparent;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+
+    .btn-primary {
+      background: var(--ink);
+      color: var(--foam);
+    }
+    .btn-primary:hover { background: var(--teal); color: #fff; }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--ink);
+      border-color: rgba(28, 36, 32, 0.28);
+    }
+    .btn-ghost:hover {
+      border-color: var(--teal);
+      color: var(--teal);
+    }
+
+    .meta-chip {
+      font-size: 0.82rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 1.1rem;
+      animation: rise 0.9s ease-out both;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ----- Sections ----- */
+    section {
+      padding: 4.5rem 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .section-kicker {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 0.65rem;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(1.55rem, 3vw, 2.15rem);
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 0.85rem;
+    }
+
+    .section-lead {
+      color: var(--ink-soft);
+      max-width: 40rem;
+      margin-bottom: 2rem;
+    }
+
+    /* Feature bands — not card grids */
+    .feature-band {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1.25rem;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .feature-band:last-child { border-bottom: 0; }
+
+    @media (min-width: 760px) {
+      .feature-band {
+        grid-template-columns: 9rem minmax(0, 1fr);
+        gap: 1.75rem;
+        align-items: start;
+      }
+    }
+
+    .feature-index {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 2rem;
+      line-height: 1;
+      color: var(--clay);
+      opacity: 0.85;
+    }
+
+    .feature-band h3 {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+    }
+
+    .feature-band p { color: var(--ink-soft); max-width: 46rem; }
+
+    /* Engineering list */
+    .eng-list {
+      list-style: none;
+      display: grid;
+      gap: 1.15rem;
+    }
+
+    .eng-list li {
+      padding-left: 1.15rem;
+      border-left: 3px solid var(--teal);
+    }
+
+    .eng-list strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .eng-list span { color: var(--ink-soft); font-size: 0.98rem; }
+
+    /* Tech strip */
+    .tech-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+    }
+
+    .tech-strip span {
+      display: inline-block;
+      padding: 0.45rem 0.75rem;
+      background: rgba(28, 36, 32, 0.06);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--ink-soft);
+    }
+
+    /* Architecture */
+    .arch-flow {
+      display: grid;
+      gap: 0.65rem;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(0.95rem, 2vw, 1.05rem);
+    }
+
+    .arch-flow div {
+      background: rgba(255, 255, 255, 0.45);
+      border: 1px solid var(--line);
+      padding: 0.9rem 1.1rem;
+      border-radius: var(--radius);
+    }
+
+    .arch-note {
+      margin-top: 1.25rem;
+      color: var(--ink-soft);
+      max-width: 42rem;
+    }
+
+    /* Screenshots placeholders */
+    .shot-grid {
+      display: grid;
+      gap: 1.25rem 1rem;
+    }
+
+    @media (min-width: 700px) {
+      .shot-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .shot-item-wide { grid-column: 1 / -1; }
+    }
+
+    .shot-item figcaption {
+      margin-top: 0.55rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--ink-soft);
+    }
+
+    .shot {
+      aspect-ratio: 16 / 9;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: rgba(28, 36, 32, 0.06);
+      overflow: hidden;
+      position: relative;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .shot img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      background: #111;
+    }
+
+    /* Movies */
+    .movie-grid {
+      display: grid;
+      gap: 1.5rem 1rem;
+    }
+
+    @media (min-width: 700px) {
+      .movie-grid-secondary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .movie-item figcaption {
+      margin-top: 0.55rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--ink-soft);
+    }
+
+    .movie-frame {
+      aspect-ratio: 16 / 9;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: #111;
+      overflow: hidden;
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .movie-frame img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .movie-frame iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .movie-play {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      background: rgba(0, 0, 0, 0.28);
+      transition: background 0.2s ease;
+    }
+
+    .movie-frame:hover .movie-play {
+      background: rgba(0, 0, 0, 0.4);
+    }
+
+    .movie-play span {
+      width: 4rem;
+      height: 4rem;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.94);
+      color: var(--ink);
+      display: grid;
+      place-items: center;
+      font-size: 1.15rem;
+      padding-left: 0.2rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    }
+
+    .movie-lead {
+      margin-bottom: 1.5rem;
+    }
+
+    .movie-item figcaption a {
+      margin-left: 0.35rem;
+      font-weight: 400;
+      font-size: 0.85rem;
+    }
+
+    /* Profile */
+    .profile-block {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    @media (min-width: 800px) {
+      .profile-block {
+        grid-template-columns: 140px minmax(0, 1fr);
+        align-items: start;
+      }
+    }
+
+    .profile-icon {
+      width: 120px;
+      height: 120px;
+      border-radius: 18%;
+      object-fit: cover;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .profile-fields {
+      display: grid;
+      gap: 0.85rem;
+    }
+
+    .field label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.2rem;
+    }
+
+    .field .value {
+      font-size: 1.05rem;
+      color: var(--ink);
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 0.35rem;
+      min-height: 1.6em;
+    }
+
+    .field .value.placeholder {
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    /* Footer */
+    footer {
+      padding: 2.5rem 0 3.5rem;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    footer .brand-mini {
+      width: 160px;
+      margin-bottom: 0.85rem;
+      opacity: 0.9;
+    }
+
+    .nav-dots {
+      position: fixed;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      display: none;
+      flex-direction: column;
+      gap: 0.55rem;
+      z-index: 20;
+    }
+
+    @media (min-width: 1100px) {
+      .nav-dots { display: flex; }
+    }
+
+    .nav-dots a {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: rgba(28, 36, 32, 0.25);
+      text-decoration: none;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .nav-dots a:hover,
+    .nav-dots a[aria-current="true"] {
+      background: var(--clay);
+      transform: scale(1.25);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav-dots" aria-label="セクションナビ">
+    <a href="#top" title="Top" aria-current="true"></a>
+    <a href="#about" title="About"></a>
+    <a href="#features" title="Features"></a>
+    <a href="#engineering" title="Engineering"></a>
+    <a href="#tech" title="Tech"></a>
+    <a href="#movies" title="Movies"></a>
+    <a href="#screens" title="Screens"></a>
+    <a href="#profile" title="Profile"></a>
+  </nav>
+
+  <header class="hero" id="top">
+    <div class="wrap">
+      <p class="meta-chip">Unity Game · 個人製作 · 開発期間 4か月 · Steam</p>
+      <img class="brand-mark" src="assets/ClayMonsters_Logo_Clean.png" alt="ClayMonsters" />
+      <h1>粘土で創り、育て、戦う。</h1>
+      <p class="lead">
+        ボクセル粘土エディタでモンスターを造形し、育成し、<br>
+        間合いとコストを軸にしたリアルタイム対戦へ。
+        <span class="prose-break">Steam向けに、Workshop展示・オンラインPvP・デスクトップペットまで</span>
+        一気通貫で実装した個人開発タイトルです。
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#movies">トレーラーを見る</a>
+        <a class="btn btn-ghost" href="https://store.steampowered.com/app/5143390/ClayMonsters/" target="_blank" rel="noopener noreferrer">Steamページを見る</a>
+        <a class="btn btn-ghost" href="https://github.com/ikawasan/ClayMonsters" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a class="btn btn-ghost" href="#engineering">技術ハイライトを見る</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="about">
+      <div class="wrap reveal">
+        <p class="section-kicker">Overview</p>
+        <h2 class="section-title">なにをつくったか</h2>
+        <p class="section-lead">
+          ClayMonsters は「創る・育てる・戦う」を一本の体験にまとめた<br>
+          Windows / Steam 向けゲームです。
+          <span class="prose-break">開発期間は約4か月の個人製作です。</span>
+          見た目の作り込みだけでなく、コンテンツパイプライン・対戦ドメイン・<br>
+          ネットコード・Steam出荷までを自分で設計・実装しています。
+        </p>
+        <p style="color: var(--ink-soft); max-width: 42rem;">
+          エンジンは Unity 6（URP）。シーン単位の DI（VContainer）、MVP、<br>
+          UniTask / R3 による非同期・リアクティブ設計を軸にしています。
+          <span class="prose-break">編集 → 保存（glTF） → 育成 → 戦闘 → Workshop投稿の流れを</span>
+          サービス境界で整理しています。
+        </p>
+      </div>
+    </section>
+
+    <section id="features">
+      <div class="wrap">
+        <p class="section-kicker reveal">Gameplay</p>
+        <h2 class="section-title reveal">プレイヤー体験</h2>
+        <p class="section-lead reveal">メニューから辿れる主要な遊びの柱です。</p>
+
+        <article class="feature-band reveal">
+          <div class="feature-index">01</div>
+          <div>
+            <h3>クレイエディット</h3>
+            <p>
+              スカルプト / ペイント / アニメーション。<br>
+              GPU Compute と Jobs/Burst によるボクセル処理、<br>
+              Marching Cubes によるメッシュ化、自動リギングまでを内製。
+            </p>
+          </div>
+        </article>
+
+        <article class="feature-band reveal">
+          <div class="feature-index">02</div>
+          <div>
+            <h3>育成</h3>
+            <p>
+              日次ループ・天候・モチベーション・ショップ・技習得。<br>
+              オート育成や訓練済みスロット保存など、<br>
+              育成シミュレーションとしての厚みを実装。
+            </p>
+          </div>
+        </article>
+
+        <article class="feature-band reveal">
+          <div class="feature-index">03</div>
+          <div>
+            <h3>リアルタイム戦闘</h3>
+            <p>
+              距離（間合い）・コスト・射程帯・カウンター・<br>
+              部位破壊/復旧・ノックバック・チェーン。<br>
+              CPU戦トーナメントと対人戦の両方に同じ戦闘ドメインを接続。
+            </p>
+          </div>
+        </article>
+
+        <article class="feature-band reveal">
+          <div class="feature-index">04</div>
+          <div>
+            <h3>オンラインPvP</h3>
+            <p>
+              Unity Authentication / Lobby / Relay + Netcode for GameObjects。<br>
+              ロビーからアリーナまでのマッチメイキングと入力同期を実装。
+            </p>
+          </div>
+        </article>
+
+        <article class="feature-band reveal">
+          <div class="feature-index">05</div>
+          <div>
+            <h3>展示室 &amp; デスクトップペット</h3>
+            <p>
+              Steam Workshop への投稿・閲覧・お気に入り。<br>
+              本編終了後は別プロセスのデスクトップペットへ引き継ぎ、<br>
+              Steamプレイ時間を継続するランチャー設計。
+            </p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="engineering">
+      <div class="wrap reveal">
+        <p class="section-kicker">Engineering</p>
+        <h2 class="section-title">就職活動で伝えたい技術点</h2>
+        <p class="section-lead">
+          「ゲームを一本作った」だけでなく、<br>
+          設計判断と実装の深さで評価してもらうためのポイントです。
+        </p>
+
+        <ul class="eng-list">
+          <li>
+            <strong>内製ボクセル粘土パイプライン</strong>
+            <span>
+              GPU / CPU 両バックエンド、Marching Cubes、自動リギング、<br>
+              部位欠損、glTF へのスキン付きエクスポートまでを一本化。
+            </span>
+          </li>
+          <li>
+            <strong>複雑なリアルタイム戦闘ドメイン</strong>
+            <span>
+              間合い・コスト・射程・部位・カウンターをドメインモデルとして整理し、<br>
+              Presenter 経由で UI に R3 でバインド。
+            </span>
+          </li>
+          <li>
+            <strong>オンライン対戦の実装経験</strong>
+            <span>
+              Auth → Lobby → Relay → NGO の接続経路、<br>
+              マッチメイキングサービス、入力リレーを分離して実装。
+            </span>
+          </li>
+          <li>
+            <strong>Steam出荷を見据えたプロセス設計</strong>
+            <span>
+              Launcher / 本編 / Desktop Pet の三プロセス構成。<br>
+              プレイ時間継続と Workshop UGC まで含めたプロダクトとしての完成度。
+            </span>
+          </li>
+          <li>
+            <strong>保守しやすい UI / DI 方針</strong>
+            <span>
+              シーン単位 LifetimeScope、MVP、SerializeField 手動配線を正とし、<br>
+              実行時の Find / レイアウト書き換えに頼らない設計ルールを運用。
+            </span>
+          </li>
+          <li>
+            <strong>多言語・セーブ保護</strong>
+            <span>
+              TSV テキストテーブルによる 9 言語対応。<br>
+              セーブデータの保護（HMAC 等）も実装。
+            </span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="tech">
+      <div class="wrap">
+        <div class="reveal">
+          <p class="section-kicker">Stack</p>
+          <h2 class="section-title">技術スタック</h2>
+          <p class="section-lead">本番で使っている主な技術です。</p>
+          <div class="tech-strip">
+            <span>Unity 6 / URP</span>
+            <span>C#</span>
+            <span>VContainer</span>
+            <span>UniTask</span>
+            <span>R3</span>
+            <span>MVP</span>
+            <span>Netcode for GameObjects</span>
+            <span>Unity Lobby / Relay / Auth</span>
+            <span>Steamworks.NET</span>
+            <span>Steam Workshop</span>
+            <span>glTFast</span>
+            <span>Jobs / Burst / Compute Shader</span>
+            <span>.NET Desktop Pet / Launcher</span>
+          </div>
+        </div>
+
+        <div class="reveal" style="margin-top: 3rem;">
+          <p class="section-kicker">Architecture</p>
+          <h2 class="section-title">アーキテクチャの骨格</h2>
+          <div class="arch-flow">
+            <div>Bootstrap → Title<br>（ルート LifetimeScope）</div>
+            <div>ClayEdit / Training / BattleNpc / BattlePvpArena<br>（シーン Scope + MVP）</div>
+            <div>BattleSystem ドメイン ← R3 → Presenter → View<br>（Canvas.enabled で表示制御）</div>
+            <div>Save / glTF / Workshop / Netcode は<br>Service 境界で接続</div>
+          </div>
+          <p class="arch-note">
+            UI の RectTransform や Hierarchy は Prefab / シーン配置を唯一の正とし、<br>
+            実行時生成やレイアウト補正に依存しない方針です。
+            <span class="prose-break">「動くデモ」ではなく「長く直せる構造」を意識しています。</span>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="movies">
+      <div class="wrap reveal">
+        <p class="section-kicker">Movies</p>
+        <h2 class="section-title">プレイ動画</h2>
+        <p class="section-lead movie-lead">
+          YouTube に公開したトレーラーと、モンスター作成・戦闘のプレイ映像です。<br>
+          サムネイルをクリックすると再生できます。
+        </p>
+
+        <figure class="movie-item movie-lead">
+          <a
+            class="movie-frame"
+            href="https://youtu.be/IkpmVa9tL28"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-youtube-id="IkpmVa9tL28"
+            data-youtube-title="ClayMonsters Trailer"
+          >
+            <img src="https://img.youtube.com/vi/IkpmVa9tL28/hqdefault.jpg" alt="トレーラー" loading="lazy" />
+            <div class="movie-play" aria-hidden="true"><span>▶</span></div>
+          </a>
+          <figcaption>
+            トレーラー
+            <a href="https://youtu.be/IkpmVa9tL28" target="_blank" rel="noopener noreferrer">YouTube</a>
+          </figcaption>
+        </figure>
+
+        <div class="movie-grid movie-grid-secondary">
+          <figure class="movie-item">
+            <a
+              class="movie-frame"
+              href="https://youtu.be/veBagsQxTiI"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-youtube-id="veBagsQxTiI"
+              data-youtube-title="CreateMonster"
+            >
+              <img src="https://img.youtube.com/vi/veBagsQxTiI/hqdefault.jpg" alt="モンスター作成" loading="lazy" />
+              <div class="movie-play" aria-hidden="true"><span>▶</span></div>
+            </a>
+            <figcaption>
+              モンスター作成
+              <a href="https://youtu.be/veBagsQxTiI" target="_blank" rel="noopener noreferrer">YouTube</a>
+            </figcaption>
+          </figure>
+          <figure class="movie-item">
+            <a
+              class="movie-frame"
+              href="https://youtu.be/E1NiH0nBsHE"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-youtube-id="E1NiH0nBsHE"
+              data-youtube-title="Battle"
+            >
+              <img src="https://img.youtube.com/vi/E1NiH0nBsHE/hqdefault.jpg" alt="戦闘" loading="lazy" />
+              <div class="movie-play" aria-hidden="true"><span>▶</span></div>
+            </a>
+            <figcaption>
+              戦闘
+              <a href="https://youtu.be/E1NiH0nBsHE" target="_blank" rel="noopener noreferrer">YouTube</a>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="screens">
+      <div class="wrap reveal">
+        <p class="section-kicker">Visuals</p>
+        <h2 class="section-title">スクリーンショット</h2>
+        <p class="section-lead">タイトルから編集・戦闘・育成・スキルツリーまでの実プレイ画面です。</p>
+        <div class="shot-grid">
+          <figure class="shot-item">
+            <div class="shot has-image">
+              <img src="assets/screens/ScreenShot0.png" alt="タイトル画面" loading="lazy" />
+            </div>
+            <figcaption>タイトル（教室フィールド）</figcaption>
+          </figure>
+          <figure class="shot-item">
+            <div class="shot has-image">
+              <img src="assets/screens/ScreenShot1.png" alt="リアルタイム戦闘" loading="lazy" />
+            </div>
+            <figcaption>リアルタイム戦闘（間合い・コスト）</figcaption>
+          </figure>
+          <figure class="shot-item">
+            <div class="shot has-image">
+              <img src="assets/screens/ScreenShot2.png" alt="戦闘アクション" loading="lazy" />
+            </div>
+            <figcaption>戦闘アクション（攻撃演出）</figcaption>
+          </figure>
+          <figure class="shot-item">
+            <div class="shot has-image">
+              <img src="assets/screens/ScreenShot3.png" alt="クレイエディット ペイント" loading="lazy" />
+            </div>
+            <figcaption>クレイエディット（塗る）</figcaption>
+          </figure>
+          <figure class="shot-item">
+            <div class="shot has-image">
+              <img src="assets/screens/ScreenShot4.png" alt="クレイエディット 成形" loading="lazy" />
+            </div>
+            <figcaption>クレイエディット（成形）</figcaption>
+          </figure>
+          <figure class="shot-item">
+            <div class="shot has-image">
+              <img src="assets/screens/ScreenShot5.png" alt="スキルツリー" loading="lazy" />
+            </div>
+            <figcaption>スキルツリー</figcaption>
+          </figure>
+          <figure class="shot-item shot-item-wide">
+            <div class="shot has-image">
+              <img src="assets/screens/ScreenShot6.png" alt="育成画面" loading="lazy" />
+            </div>
+            <figcaption>育成（教室・ステータス・やる気）</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="profile">
+      <div class="wrap reveal">
+        <p class="section-kicker">About me</p>
+        <h2 class="section-title">制作者</h2>
+        <p class="section-lead">制作者情報です。</p>
+
+        <div class="profile-block">
+          <img class="profile-icon" src="assets/ClayMonsters_AppIcon.png" alt="App icon" />
+          <div class="profile-fields">
+            <div class="field">
+              <label>Name</label>
+              <div class="value" id="field-name">井川 雅隆</div>
+            </div>
+            <div class="field">
+              <label>Development</label>
+              <div class="value">個人製作 / 開発期間 約4か月</div>
+            </div>
+            <div class="field">
+              <label>Steam</label>
+              <div class="value">
+                <a href="https://store.steampowered.com/app/5143390/ClayMonsters/" target="_blank" rel="noopener noreferrer">
+                  store.steampowered.com/app/5143390/<br>ClayMonsters
+                </a>
+              </div>
+            </div>
+            <div class="field">
+              <label>GitHub</label>
+              <div class="value">
+                <a href="https://github.com/ikawasan/ClayMonsters" target="_blank" rel="noopener noreferrer">
+                  github.com/ikawasan/ClayMonsters
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <img class="brand-mini" src="assets/ClayMonsters_Logo_Title.png" alt="" />
+      <p>ClayMonsters Portfolio · Built for job applications · Open <strong>index.html</strong> in a browser.</p>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      // Reveal on scroll
+      const reveals = document.querySelectorAll(".reveal");
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("is-visible");
+              io.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+      );
+      reveals.forEach((el) => io.observe(el));
+
+      // Section dots
+      const sections = ["top", "about", "features", "engineering", "tech", "movies", "screens", "profile"]
+        .map((id) => document.getElementById(id))
+        .filter(Boolean);
+      const dots = document.querySelectorAll(".nav-dots a");
+      const sectionIo = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            const id = entry.target.id;
+            dots.forEach((dot) => {
+              const href = dot.getAttribute("href") || "";
+              dot.setAttribute("aria-current", href === "#" + id ? "true" : "false");
+            });
+          });
+        },
+        { threshold: 0.35 }
+      );
+      sections.forEach((s) => sectionIo.observe(s));
+
+      // HTTPS公開時のみページ内埋め込み再生。ローカルfile://ではYouTubeを新規タブで開く
+      if (location.protocol === "http:" || location.protocol === "https:") {
+        document.querySelectorAll(".movie-frame[data-youtube-id]").forEach((frame) => {
+          frame.addEventListener("click", (event) => {
+            event.preventDefault();
+            const id = frame.getAttribute("data-youtube-id");
+            const title = frame.getAttribute("data-youtube-title") || "YouTube video";
+            if (!id || frame.querySelector("iframe")) return;
+            frame.innerHTML = "";
+            const iframe = document.createElement("iframe");
+            iframe.src = "https://www.youtube-nocookie.com/embed/" + id + "?autoplay=1&rel=0";
+            iframe.title = title;
+            iframe.allow =
+              "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+            iframe.allowFullscreen = true;
+            iframe.setAttribute("referrerpolicy", "strict-origin-when-cross-origin");
+            frame.appendChild(iframe);
+          });
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+# ローカル再生用の大容量MP4はGitHubに上げない(YouTube埋め込みを使用)
+assets/movies/*.mp4
+assets/movies/*.mov
+assets/movies/*.avi
+.DS_Store
+Thumbs.db
