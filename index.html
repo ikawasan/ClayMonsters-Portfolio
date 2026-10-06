@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ClayMonsters — Portfolio</title>
+  <title>ClayMonsters — Portfolio | 井川 雅隆</title>
   <meta name="description" content="Unity製クリーチャー作成・育成・リアルタイム対戦ゲーム ClayMonsters のポートフォリオ。" />
   <link rel="icon" href="assets/ClayMonsters_AppIcon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -536,6 +536,7 @@
     <a href="#about" title="About"></a>
     <a href="#features" title="Features"></a>
     <a href="#engineering" title="Engineering"></a>
+    <a href="#contribution" title="Contribution"></a>
     <a href="#tech" title="Tech"></a>
     <a href="#movies" title="Movies"></a>
     <a href="#screens" title="Screens"></a>
@@ -653,10 +654,10 @@
     <section id="engineering">
       <div class="wrap reveal">
         <p class="section-kicker">Engineering</p>
-        <h2 class="section-title">就職活動で伝えたい技術点</h2>
+        <h2 class="section-title">実務で活かせる技術力</h2>
         <p class="section-lead">
-          「ゲームを一本作った」だけでなく、<br>
-          設計判断と実装の深さで評価してもらうためのポイントです。
+          企画・設計・実装からSteamリリースまでを一人でやり切った経験のうち、<br>
+          チーム開発の現場でそのまま活かせるポイントです。
         </p>
 
         <ul class="eng-list">
@@ -682,17 +683,17 @@
             </span>
           </li>
           <li>
-            <strong>Steam出荷を見据えたプロセス設計</strong>
+            <strong>リリースまでやり切る力</strong>
             <span>
-              Launcher / 本編 / Desktop Pet の三プロセス構成。<br>
-              プレイ時間継続と Workshop UGC まで含めたプロダクトとしての完成度。
+              Launcher / 本編 / Desktop Pet の三プロセス構成で Steam に出荷。<br>
+              SteamPipe でのビルド配信や Workshop UGC 対応まで含めて完遂。
             </span>
           </li>
           <li>
-            <strong>保守しやすい UI / DI 方針</strong>
+            <strong>チームで保守しやすい設計</strong>
             <span>
               シーン単位 LifetimeScope、MVP、SerializeField 手動配線を正とし、<br>
-              実行時の Find / レイアウト書き換えに頼らない設計ルールを運用。
+              実行時の Find / レイアウト書き換えに頼らない設計ルールを明文化して運用。
             </span>
           </li>
           <li>
@@ -700,6 +701,45 @@
             <span>
               TSV テキストテーブルによる 9 言語対応。<br>
               セーブデータの保護（HMAC 等）も実装。
+            </span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="contribution">
+      <div class="wrap reveal">
+        <p class="section-kicker">Contribution</p>
+        <h2 class="section-title">入社後に貢献できること</h2>
+        <p class="section-lead">本作の開発で得た経験をもとに、次の領域で貢献できます。</p>
+
+        <ul class="eng-list">
+          <li>
+            <strong>Unity クライアントの設計・実装</strong>
+            <span>
+              VContainer / UniTask / R3 を用いた MVP 構成で、<br>
+              画面遷移・UI・ゲームロジックを責務ごとに分けて実装できます。
+            </span>
+          </li>
+          <li>
+            <strong>オンライン機能の実装</strong>
+            <span>
+              認証・ロビー・リレー・同期処理を含む<br>
+              オンライン対戦機能の設計と実装ができます。
+            </span>
+          </li>
+          <li>
+            <strong>ツール・コンテンツパイプライン開発</strong>
+            <span>
+              Compute Shader / Jobs / Burst を使った処理の高速化や、<br>
+              エディタ機能・データ変換（glTF）の仕組みづくりができます。
+            </span>
+          </li>
+          <li>
+            <strong>リリース・運用まわり</strong>
+            <span>
+              Steamworks 連携、ビルド配信、多言語対応、セーブデータ保護など<br>
+              出荷に必要な周辺実装まで対応できます。
             </span>
           </li>
         </ul>
@@ -868,8 +908,8 @@
     <section id="profile">
       <div class="wrap reveal">
         <p class="section-kicker">About me</p>
-        <h2 class="section-title">制作者</h2>
-        <p class="section-lead">制作者情報です。</p>
+        <h2 class="section-title">プロフィール</h2>
+        <p class="section-lead">ご覧いただきありがとうございます。</p>
 
         <div class="profile-block">
           <img class="profile-icon" src="assets/ClayMonsters_AppIcon.png" alt="App icon" />
@@ -907,7 +947,7 @@
   <footer>
     <div class="wrap">
       <img class="brand-mini" src="assets/ClayMonsters_Logo_Title.png" alt="" />
-      <p>ClayMonsters Portfolio · Built for job applications · Open <strong>index.html</strong> in a browser.</p>
+      <p>ClayMonsters Portfolio · 井川 雅隆</p>
     </div>
   </footer>
 
@@ -929,7 +969,7 @@
       reveals.forEach((el) => io.observe(el));
 
       // Section dots
-      const sections = ["top", "about", "features", "engineering", "tech", "movies", "screens", "profile"]
+      const sections = ["top", "about", "features", "engineering", "contribution", "tech", "movies", "screens", "profile"]
         .map((id) => document.getElementById(id))
         .filter(Boolean);
       const dots = document.querySelectorAll(".nav-dots a");
