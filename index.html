@@ -577,7 +577,7 @@
         <p style="color: var(--ink-soft); max-width: 42rem;">
           エンジンは Unity 6（URP）。シーン単位の DI（VContainer）、MVP、<br>
           UniTask / R3 による非同期・リアクティブ設計を軸にしています。
-          <span class="prose-break">編集 → 保存（glTF） → 育成 → 戦闘 → Workshop投稿の流れを</span>
+          <span class="prose-break">編集 → 保存（glTF） → 育成 → 戦闘 → 展示室投稿の流れを</span>
           サービス境界で整理しています。
         </p>
       </div>
@@ -773,7 +773,7 @@
             <div>Bootstrap → Title<br>（ルート LifetimeScope）</div>
             <div>ClayEdit / Training / BattleNpc / BattlePvpArena<br>（シーン Scope + MVP）</div>
             <div>BattleSystem ドメイン ← R3 → Presenter → View<br>（Canvas.enabled で表示制御）</div>
-            <div>Save / glTF / Workshop / Netcode は<br>Service 境界で接続</div>
+            <div>Save / glTF / Gallery / Netcode は<br>Service 境界で接続</div>
           </div>
           <p class="arch-note">
             UI の RectTransform や Hierarchy は Prefab / シーン配置を唯一の正とし、<br>
